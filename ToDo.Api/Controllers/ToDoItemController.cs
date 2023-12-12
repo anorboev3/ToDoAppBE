@@ -25,7 +25,7 @@ namespace ToDo.Api.Controllers
         /// Takes a paginated list of To Do items, optionally filtered by status.
         /// </summary>
         /// <param name="pageSize">Number of items per page.</param>
-        /// <param name="pageNumber">Page number, starting from 0.</param>
+        /// <param name="pageNumber">Page number, starting from 1.</param>
         /// <param name="toDoItemStatus">Optional filter for To Do item status (Active = 0, Compleated = 1).</param>
         /// <returns>A paginated list of To Do items according to the specified parameters.</returns>
         [HttpGet]
