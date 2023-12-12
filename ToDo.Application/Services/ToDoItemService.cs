@@ -43,7 +43,7 @@ namespace ToDo.Application.Services
 
                 var toDoItems = await query
                     .Where(x => !x.IsDeleted)
-                    .Skip(pageNumber * pageSize)
+                    .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .Select(x => mapper.Map<ToDoItemResponseModel>(x))
                     .ToListAsync(cancellationToken);
@@ -93,6 +93,7 @@ namespace ToDo.Application.Services
                 }
 
                 mapper.Map(requestModel, toDoItem);
+                toDoItem.UpdatedAt = DateTime.UtcNow;
 
                 await context.SaveChangesAsync(cancellationToken);
 
@@ -118,9 +119,9 @@ namespace ToDo.Application.Services
                     Log.Error($"To Do Item with Id = {id} not found.");
                     throw new ArgumentException("To Do Item not found.");
                 }
-                    
 
                 toDoItem.Status = status;
+                toDoItem.UpdatedAt = DateTime.UtcNow;
 
                 await context.SaveChangesAsync(cancellationToken);
 

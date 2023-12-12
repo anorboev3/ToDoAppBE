@@ -9,6 +9,7 @@ namespace ToDo.Application.Common.Models
         public required string Title { get; set; }
         public string? Description { get; set; }
         public DateTime DateOfCreation { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; }
         [Range(0, 1)]
         public ToDoItemStatus Status { get; set; } = ToDoItemStatus.Active;
         public bool IsDeleted { get; set; }
