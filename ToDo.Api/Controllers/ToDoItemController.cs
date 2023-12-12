@@ -26,7 +26,7 @@ namespace ToDo.Api.Controllers
         /// </summary>
         /// <param name="pageSize">Number of items per page.</param>
         /// <param name="pageNumber">Page number, starting from 1.</param>
-        /// <param name="toDoItemStatus">Optional filter for To Do item status (Active = 0, Compleated = 1).</param>
+        /// <param name="toDoItemStatus">Optional filter for To Do item status (Active = 0, Completed = 1).</param>
         /// <returns>A paginated list of To Do items according to the specified parameters.</returns>
         [HttpGet]
         public async Task<IActionResult> GetList(
@@ -66,7 +66,7 @@ namespace ToDo.Api.Controllers
         /// Updates the status of the To Do item by Id.
         /// </summary>
         /// <param name="id">Id of To Do item to update status.</param>
-        /// <param name="status">Status for updating (Active = 0, Compleated = 1).</param>
+        /// <param name="status">Status for updating (Active = 0, Completed = 1).</param>
         /// <returns>A To Do item with updated status.</returns>
         [HttpPut]
         [Route("update-status/{id}")]
