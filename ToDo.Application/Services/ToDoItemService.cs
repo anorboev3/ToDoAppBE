@@ -34,6 +34,7 @@ namespace ToDo.Application.Services
 
             var toDoItems = await query
                 .Where(x => !x.IsDeleted)
+                .OrderByDescending(x => x.DateOfCreation)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .Select(x => mapper.Map<ToDoItemResponseModel>(x))
@@ -88,7 +89,7 @@ namespace ToDo.Application.Services
             return mapper.Map<ToDoItemResponseModel>(toDoItem);
         }
 
-        public async Task<ToDoItemResponseModel> UpdateStatus(Guid id, ToDoItemStatus status, CancellationToken cancellationToken)
+        public async Task<ToDoItemResponseModel> UpdateStatus(Guid id, UpdateToDoItemStatusRequestModel requestModel, CancellationToken cancellationToken)
         {
             var toDoItem = await context.ToDoItems.FindAsync(id, cancellationToken);
 
@@ -99,7 +100,7 @@ namespace ToDo.Application.Services
                 throw new ArgumentException(errorMessage);
             }
 
-            toDoItem.Status = status;
+            toDoItem.Status = requestModel.Status;
             toDoItem.UpdatedAt = DateTime.UtcNow;
 
             await context.SaveChangesAsync(cancellationToken);

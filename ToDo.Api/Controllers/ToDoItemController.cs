@@ -41,25 +41,25 @@ namespace ToDo.Api.Controllers
         /// <summary>
         /// Creates a new To Do items.
         /// </summary>
-        /// <param name="toDoItemDto">To Do Item object to create.</param>
+        /// <param name="requestModel">To Do Item object to create.</param>
         /// <returns>A new created To Do item.</returns>
         [HttpPost]
-        public async Task<IActionResult> Create(CreateToDoItemRequestModel toDoItemDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateToDoItemRequestModel requestModel, CancellationToken cancellationToken)
         {
-            return Ok(await toDoItemService.Create(toDoItemDto, cancellationToken));
+            return Ok(await toDoItemService.Create(requestModel, cancellationToken));
         }
 
         /// <summary>
         /// Updates the To Do item by Id.
         /// </summary>
         /// <param name="id">Id of To Do item to update.</param>
-        /// <param name="toDoItemDto">To Do item object for updating.</param>
+        /// <param name="requestModel">To Do item object for updating.</param>
         /// <returns>An updated To Do item.</returns>
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update(Guid id, UpdateToDoItemRequestModel toDoItemDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(Guid id, UpdateToDoItemRequestModel requestModel, CancellationToken cancellationToken)
         {
-            return Ok(await toDoItemService.Update(id, toDoItemDto, cancellationToken));
+            return Ok(await toDoItemService.Update(id, requestModel, cancellationToken));
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace ToDo.Api.Controllers
         /// <returns>A To Do item with updated status.</returns>
         [HttpPut]
         [Route("update-status/{id}")]
-        public async Task<IActionResult> UpdateStatus(Guid id, ToDoItemStatus status, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateStatus(Guid id, UpdateToDoItemStatusRequestModel requestModel, CancellationToken cancellationToken)
         {
-            return Ok(await toDoItemService.UpdateStatus(id, status, cancellationToken));
+            return Ok(await toDoItemService.UpdateStatus(id, requestModel, cancellationToken));
         }
 
         /// <summary>
