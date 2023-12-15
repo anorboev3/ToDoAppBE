@@ -40,7 +40,12 @@ namespace ToDo.Application.Services
                 .Select(x => mapper.Map<ToDoItemResponseModel>(x))
                 .ToListAsync(cancellationToken);
 
-            return new ToDoItemsListResponseModel { ToDoItems = toDoItems, TotalCount = query.Count() };
+            return new ToDoItemsListResponseModel 
+            { 
+                ToDoItems = toDoItems,
+                TotalCount = query.Count(),
+                TotalActiveCount = query.Where(x => x.Status == ToDoItemStatus.Active).Count()
+                };
         }
 
         public async Task<ToDoItemResponseModel> Create(CreateToDoItemRequestModel requestModel, CancellationToken cancellationToken)
