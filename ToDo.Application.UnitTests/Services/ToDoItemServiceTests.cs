@@ -77,7 +77,7 @@ namespace ToDo.Application.UnitTests.Services
             int pageSize = 5;
             int pageNumber = 1;
             ToDoItemStatus? status = null;
-            var filteredMockToDoItems = mockToDoItems.Where(x => !x.IsDeleted).ToList();
+            var filteredMockToDoItems = mockToDoItems.Where(x => !x.IsDeleted).OrderByDescending(x => x.DateOfCreation).ToList();
             var expectedResult = new ToDoItemsListResponseModel
             {
                 ToDoItems = filteredMockToDoItems
@@ -118,7 +118,7 @@ namespace ToDo.Application.UnitTests.Services
             int pageSize = 7;
             int pageNumber = 2;
             ToDoItemStatus? status = null;
-            var filteredMockToDoItems = mockToDoItems.Where(x => !x.IsDeleted).ToList();
+            var filteredMockToDoItems = mockToDoItems.Where(x => !x.IsDeleted).OrderByDescending(x => x.DateOfCreation).ToList();
             var expectedResult = new ToDoItemsListResponseModel
             {
                 ToDoItems = filteredMockToDoItems
@@ -278,8 +278,8 @@ namespace ToDo.Application.UnitTests.Services
         {
             var toDoItemId = Guid.NewGuid();
             var toDoItem = GenerateToDoItem(toDoItemId);
-            var statusToUpdate = ToDoItemStatus.Completed;
-            var responseModel = GenerateToDoItemResponseModel(toDoItemId, toDoItem.Title, toDoItem.Description, toDoItem.DateOfCreation, statusToUpdate);
+            var statusToUpdate = new UpdateToDoItemStatusRequestModel { Status = ToDoItemStatus.Completed };
+            var responseModel = GenerateToDoItemResponseModel(toDoItemId, toDoItem.Title, toDoItem.Description, toDoItem.DateOfCreation, statusToUpdate.Status);
 
             _mockContext.Setup(ctx => ctx.ToDoItems.FindAsync(toDoItemId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(toDoItem);
@@ -311,7 +311,7 @@ namespace ToDo.Application.UnitTests.Services
             _mockContext.Setup(ctx => ctx.ToDoItems.FindAsync(toDoItemId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((ToDoItem)null);
 
-            var updateStatusAction = async () => await _service.UpdateStatus(toDoItemId, ToDoItemStatus.Completed, CancellationToken.None);
+            var updateStatusAction = async () => await _service.UpdateStatus(toDoItemId, new UpdateToDoItemStatusRequestModel { Status = ToDoItemStatus.Completed }, CancellationToken.None);
 
             Assert.That(updateStatusAction, Throws.TypeOf<ArgumentException>()
                 .With.Message.EqualTo($"Update To Do Item Status: To Do Item with Id = {toDoItemId} not found."));
